@@ -1,0 +1,6 @@
+# macOS clutter
+.DS_Store
+
+# Python cache (from the site generator)
+__pycache__/
+*.pyc
