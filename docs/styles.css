@@ -35,6 +35,8 @@ img{display:block;max-width:100%}
   transition:color .2s;
 }
 .nav a:hover{color:var(--accent)}
+.nav a.nav-ig{display:inline-flex;align-items:center;gap:.4rem}
+.nav a.nav-ig svg{display:block}
 
 /* Hero */
 .hero{
