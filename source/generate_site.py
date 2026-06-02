@@ -163,15 +163,7 @@ def main():
       </div>
       <div class="prose contact">
         <p>{html.escape(contact_intro)}</p>
-        <!-- This is a static site. To make the form deliver mail, replace the
-             action below with a form endpoint (e.g. Formspree) or wire up the
-             mailto fallback by editing the email in app.js. -->
-        <form class="contact-form" id="contact-form" action="#" method="post">
-          <label>Name <input type="text" name="name" required></label>
-          <label>Email <input type="email" name="email" required></label>
-          <label>Message <textarea name="message" rows="5" required></textarea></label>
-          <button type="submit">Send</button>
-        </form>
+        <p class="email-link"><a href="mailto:fane@dimitrifane.com">fane@dimitrifane.com</a></p>
       </div>
     </section>
   </main>
@@ -309,25 +301,13 @@ img{display:block;max-width:100%}
 .entry{margin:.25rem 0;font-size:.92rem;color:var(--muted);line-height:1.5}
 
 /* Contact */
-.contact-form{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
-.contact-form label{
-  display:flex;flex-direction:column;gap:.35rem;
-  font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);
+.contact{text-align:center}
+.email-link{margin-top:1.5rem}
+.email-link a{
+  font-family:var(--serif);font-size:1.4rem;color:var(--accent);
+  text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s;
 }
-.contact-form input,.contact-form textarea{
-  font-family:inherit;font-size:1rem;padding:.7rem .8rem;
-  border:1px solid var(--line);background:#fff;border-radius:2px;
-}
-.contact-form input:focus,.contact-form textarea:focus{
-  outline:none;border-color:var(--accent);
-}
-.contact-form button{
-  align-self:flex-start;cursor:pointer;
-  background:var(--ink);color:#fff;border:0;
-  padding:.8rem 2rem;text-transform:uppercase;letter-spacing:.12em;
-  font-size:.8rem;transition:background .2s;
-}
-.contact-form button:hover{background:var(--accent)}
+.email-link a:hover{border-bottom-color:var(--accent)}
 
 /* Footer */
 .site-footer{
@@ -405,22 +385,6 @@ img{display:block;max-width:100%}
     else if (e.key === 'ArrowRight') show(idx + 1);
     else if (e.key === 'ArrowLeft') show(idx - 1);
   });
-
-  // Contact form: mailto fallback so the static site still does something.
-  // Replace CONTACT_EMAIL with a real address (or swap the <form> action for a
-  // hosted form endpoint and delete this handler).
-  var CONTACT_EMAIL = '';
-  var form = document.getElementById('contact-form');
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      if (!CONTACT_EMAIL) return; // let it no-op until an email is set
-      e.preventDefault();
-      var n = form.name.value, em = form.email.value, m = form.message.value;
-      var body = encodeURIComponent(m + '\\n\\nFrom: ' + n + ' <' + em + '>');
-      var subj = encodeURIComponent('Inquiry from lawrencefane.com');
-      window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + subj + '&body=' + body;
-    });
-  }
 })();
 """
 

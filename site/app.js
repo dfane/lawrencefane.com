@@ -36,20 +36,4 @@
     else if (e.key === 'ArrowRight') show(idx + 1);
     else if (e.key === 'ArrowLeft') show(idx - 1);
   });
-
-  // Contact form: mailto fallback so the static site still does something.
-  // Replace CONTACT_EMAIL with a real address (or swap the <form> action for a
-  // hosted form endpoint and delete this handler).
-  var CONTACT_EMAIL = '';
-  var form = document.getElementById('contact-form');
-  if (form) {
-    form.addEventListener('submit', function (e) {
-      if (!CONTACT_EMAIL) return; // let it no-op until an email is set
-      e.preventDefault();
-      var n = form.name.value, em = form.email.value, m = form.message.value;
-      var body = encodeURIComponent(m + '\n\nFrom: ' + n + ' <' + em + '>');
-      var subj = encodeURIComponent('Inquiry from lawrencefane.com');
-      window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + subj + '&body=' + body;
-    });
-  }
 })();

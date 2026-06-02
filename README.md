@@ -139,18 +139,12 @@ want to confirm it finished.
 
 ---
 
-## The contact form
+## The contact section
 
-The site is static, so the contact form doesn't send email until you connect it
-to something. You have two easy options:
-
-- **Quickest — email link:** open `site/app.js`, find the line
-  `var CONTACT_EMAIL = '';`, and put an email address between the quotes, e.g.
-  `var CONTACT_EMAIL = 'name@example.com';`. The form will then open the
-  visitor's email program with the message pre-filled.
-- **Nicer — a hosted form service** (e.g. [Formspree](https://formspree.io)):
-  sign up, get a form URL, and in `site/index.html` change
-  `<form ... action="#" method="post">` so `action` points at that URL.
+The **Get in touch** section is a simple email link to
+`fane@dimitrifane.com` (clicking it opens the visitor's email program).
+To change the address, edit the contact section near the bottom of
+`source/generate_site.py` and re-run the generator.
 
 ---
 
