@@ -2,10 +2,10 @@
 """Generate a single-page static site for Lawrence Fane from source/content.json.
 
 Outputs:
-  site/index.html
-  site/styles.css
+  docs/index.html
+  docs/styles.css
 
-Images are expected to already live in site/images/ (filenames match the
+Images are expected to already live in docs/images/ (filenames match the
 "local" field of each image in content.json).
 """
 import html
@@ -16,7 +16,7 @@ import re
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 CONTENT = os.path.join(HERE, "content.json")
-SITE = os.path.join(ROOT, "site")
+SITE = os.path.join(ROOT, "docs")
 
 
 def clean_title(t):
@@ -396,7 +396,7 @@ img{display:block;max-width:100%}
     with open(os.path.join(SITE, "app.js"), "w", encoding="utf-8") as f:
         f.write(appjs)
 
-    print("Wrote site/index.html, site/styles.css, site/app.js")
+    print("Wrote docs/index.html, docs/styles.css, docs/app.js")
     print("Sculpture images: %d" % len(d["sculpture_images"]))
     print("Drawing images:   %d" % len(d["drawings_images"]))
 
