@@ -15,9 +15,10 @@ be hosted anywhere — these instructions use **GitHub Pages**, which is free.
 | `site/styles.css` | All the styling (colors, fonts, layout). |
 | `site/app.js` | The image lightbox and the contact form behavior. |
 | `site/images/` | Every image shown on the site. |
-| `scrape/` | Behind-the-scenes source material: the original scraped pages, the image downloader, and `content.json`. Not published. |
-| `scrape/content.json` | The text and image list, kept separately so the page can be re-generated. |
-| `scrape/generate_site.py` | A script that rebuilds `site/index.html` from `content.json`. |
+| `source/` | The files used to maintain the site. Not published. |
+| `source/content.json` | The text and image list, kept separately so the page can be re-generated. |
+| `source/generate_site.py` | A script that rebuilds `site/index.html` from `content.json`. |
+| `source/download_images.py` | Helper to (re-)download images listed in `content.json` into `images/`. |
 | `images/` | The original full-size downloads (kept as a backup). Not published. |
 
 > **Rule of thumb:** if it's not inside `site/`, it does not appear on the live website.
@@ -45,12 +46,12 @@ There are two ways to edit, depending on what you want to change.
 ### Option A — Change wording or the list of images (recommended)
 
 The bio, exhibition list, collections list, and the gallery image lists all come
-from **`scrape/content.json`**. Edit that file, then re-run the generator to
+from **`source/content.json`**. Edit that file, then re-run the generator to
 rebuild the page:
 
 ```bash
 cd /Users/fane/test_claude/lawrencefane-site
-python3 scrape/generate_site.py
+python3 source/generate_site.py
 ```
 
 This rewrites `site/index.html` (and `styles.css` / `app.js`) for you. Preview it
@@ -68,7 +69,7 @@ For one-off wording or structure, you can edit **`site/index.html`** directly.
 ### Adding or replacing a photo
 
 1. Put the image file into **`site/images/`**.
-2. Add an entry for it in the matching list in `scrape/content.json` (e.g.
+2. Add an entry for it in the matching list in `source/content.json` (e.g.
    `sculpture_images` or `drawings_images`). Copy an existing entry and change the
    `"title"` and `"local"` (the `"local"` value is just the file name).
 3. Re-run the generator (Option A).
@@ -158,7 +159,7 @@ to something. You have two easy options:
 | I want to… | Do this |
 |---|---|
 | Preview the site locally | `cd site` then `python3 -m http.server 8000`, open http://localhost:8000 |
-| Change text / image lists | Edit `scrape/content.json`, then `python3 scrape/generate_site.py` |
+| Change text / image lists | Edit `source/content.json`, then `python3 source/generate_site.py` |
 | Change colors / layout | Edit `site/styles.css` |
 | Publish my changes | `git add .` → `git commit -m "..."` → `git push` |
 | See the live site | `https://YOUR-USERNAME.github.io/lawrencefane-site/` |

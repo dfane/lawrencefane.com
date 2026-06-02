@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate a single-page static site for Lawrence Fane from scrape/content.json.
+"""Generate a single-page static site for Lawrence Fane from source/content.json.
 
 Outputs:
   site/index.html
