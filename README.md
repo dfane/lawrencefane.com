@@ -18,7 +18,6 @@ be hosted anywhere — these instructions use **GitHub Pages**, which is free.
 | `source/` | The files used to maintain the site. Not published. |
 | `source/content.json` | The text and image list, kept separately so the page can be re-generated. |
 | `source/generate_site.py` | A script that rebuilds `docs/index.html` from `content.json`. |
-| `source/download_images.py` | Helper to (re-)download images listed in `content.json` into `images/`. |
 | `images/` | The original full-size downloads (kept as a backup). Not published. |
 
 > **Rule of thumb:** if it's not inside `docs/`, it does not appear on the live website.
