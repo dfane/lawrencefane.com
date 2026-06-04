@@ -118,7 +118,7 @@ the live site usually updates within a minute.
 ## The contact section
 
 The **Get in touch** section is a simple email link to
-`fane@dimitrifane.com` (clicking it opens the visitor's email program).
+`info@lawrencefane.com` (clicking it opens the visitor's email program).
 To change the address, edit the contact section near the bottom of
 `source/generate_site.py` and re-run the generator.
 

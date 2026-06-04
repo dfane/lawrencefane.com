@@ -167,7 +167,7 @@ def main():
       </div>
       <div class="prose contact">
         <p>{html.escape(contact_intro)}</p>
-        <p class="email-link"><a href="mailto:fane@dimitrifane.com">fane@dimitrifane.com</a></p>
+        <p class="email-link"><a href="mailto:info@lawrencefane.com">info@lawrencefane.com</a></p>
       </div>
     </section>
   </main>
