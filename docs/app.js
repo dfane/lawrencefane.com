@@ -36,4 +36,35 @@
     else if (e.key === 'ArrowRight') show(idx + 1);
     else if (e.key === 'ArrowLeft') show(idx - 1);
   });
+
+  // Swipe left/right to move between images on touch screens
+  var touchStartX = null;
+  lb.addEventListener('touchstart', function (e) {
+    touchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1));
+    touchStartX = null;
+  });
+
+  // Mobile hamburger menu
+  var header = document.querySelector('.site-header');
+  var navToggle = document.getElementById('nav-toggle');
+  var nav = document.getElementById('nav');
+  if (header && navToggle && nav) {
+    function setMenu(open) {
+      header.classList.toggle('nav-open', open);
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+    navToggle.addEventListener('click', function () {
+      setMenu(!header.classList.contains('nav-open'));
+    });
+    // Close the menu after a link is tapped
+    nav.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setMenu(false);
+    });
+  }
 })();

@@ -103,7 +103,12 @@ def main():
 <body>
   <header class="site-header">
     <a class="brand" href="#home">Lawrence Fane</a>
-    <nav class="nav">
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-controls="nav" aria-expanded="false">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+    <nav class="nav" id="nav">
       <a href="#sculpture">Sculpture</a>
       <a href="#drawings">Drawings</a>
       <a href="#about">About</a>
@@ -230,6 +235,17 @@ img{display:block;max-width:100%}
 .nav a.nav-ig{display:inline-flex;align-items:center;gap:.4rem}
 .nav a.nav-ig svg{display:block}
 
+/* Hamburger button (shown only on small screens) */
+.nav-toggle{
+  display:none;width:44px;height:44px;padding:0;margin-left:1rem;
+  border:0;background:none;cursor:pointer;
+  flex-direction:column;justify-content:center;align-items:center;gap:6px;
+}
+.nav-toggle-bar{
+  display:block;width:24px;height:2px;background:var(--ink);
+  transition:transform .25s ease,opacity .2s ease;
+}
+
 /* Hero */
 .hero{
   min-height:78vh;display:flex;align-items:center;justify-content:center;
@@ -288,6 +304,10 @@ img{display:block;max-width:100%}
   opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s;
 }
 .tile:hover figcaption{opacity:1;transform:none}
+/* Touch devices have no hover, so reveal captions by default there */
+@media (hover:none){
+  .tile figcaption{opacity:1;transform:none}
+}
 
 /* Prose */
 .prose{max-width:760px;margin:0 auto}
@@ -346,10 +366,39 @@ img{display:block;max-width:100%}
 .lb-next{right:1rem}
 
 @media (max-width:680px){
-  .columns{grid-template-columns:1fr;gap:2rem}
-  .tile img{height:200px}
-  .nav a{margin-left:.9rem}
   .section{padding:3.5rem 1.1rem}
+  .columns{grid-template-columns:1fr;gap:2rem}
+
+  /* Hamburger navigation */
+  .nav-toggle{display:flex;margin-left:auto}
+  .nav{
+    position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;align-items:stretch;
+    background:rgba(247,245,241,.98);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    max-height:0;overflow:hidden;transition:max-height .3s ease;
+  }
+  .site-header.nav-open .nav{max-height:75vh}
+  .nav a{
+    margin:0;padding:1rem 1.6rem;border-top:1px solid var(--line);
+    font-size:.95rem;letter-spacing:.1em;
+  }
+  .nav a.nav-ig{justify-content:flex-start}
+  /* bars morph into an X when the menu is open */
+  .site-header.nav-open .nav-toggle-bar:nth-child(1){transform:translateY(8px) rotate(45deg)}
+  .site-header.nav-open .nav-toggle-bar:nth-child(2){opacity:0}
+  .site-header.nav-open .nav-toggle-bar:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+  /* Two-up gallery instead of one tall column */
+  .grid{grid-template-columns:repeat(2,1fr);gap:.6rem}
+  .tile img{height:42vw}
+  .tile figcaption{font-size:.74rem;padding:1.1rem .55rem .45rem}
+
+  /* Bigger, easier-to-tap lightbox controls */
+  .lb-img{max-width:92vw}
+  .lb-prev,.lb-next{font-size:3rem;padding:1.2rem .9rem}
+  .lb-close{font-size:2.6rem}
+  .lb-caption{font-size:.95rem;bottom:2.5vh;padding:0 1rem}
 }
 """
 
@@ -391,6 +440,37 @@ img{display:block;max-width:100%}
     else if (e.key === 'ArrowRight') show(idx + 1);
     else if (e.key === 'ArrowLeft') show(idx - 1);
   });
+
+  // Swipe left/right to move between images on touch screens
+  var touchStartX = null;
+  lb.addEventListener('touchstart', function (e) {
+    touchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1));
+    touchStartX = null;
+  });
+
+  // Mobile hamburger menu
+  var header = document.querySelector('.site-header');
+  var navToggle = document.getElementById('nav-toggle');
+  var nav = document.getElementById('nav');
+  if (header && navToggle && nav) {
+    function setMenu(open) {
+      header.classList.toggle('nav-open', open);
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+    navToggle.addEventListener('click', function () {
+      setMenu(!header.classList.contains('nav-open'));
+    });
+    // Close the menu after a link is tapped
+    nav.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setMenu(false);
+    });
+  }
 })();
 """
 
