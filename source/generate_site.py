@@ -374,7 +374,7 @@ img{display:block;max-width:100%}
   .nav-toggle{display:flex;margin-left:auto}
   .nav{
     position:absolute;top:100%;left:0;right:0;
-    flex-direction:column;align-items:stretch;
+    display:flex;flex-direction:column;align-items:stretch;
     background:rgba(247,245,241,.98);backdrop-filter:blur(8px);
     border-bottom:1px solid var(--line);
     max-height:0;overflow:hidden;transition:max-height .3s ease;
