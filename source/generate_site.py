@@ -8,6 +8,7 @@ Outputs:
 Images are expected to already live in docs/images/ (filenames match the
 "local" field of each image in content.json).
 """
+import hashlib
 import html
 import json
 import os
@@ -473,6 +474,14 @@ img{display:block;max-width:100%}
   }
 })();
 """
+
+    # Cache-busting: stamp the asset links with a short hash of their contents.
+    # When the CSS/JS changes, the URL changes too, so browsers (and the CDN)
+    # fetch the new version immediately instead of serving a stale cached copy.
+    css_ver = hashlib.md5(css.encode("utf-8")).hexdigest()[:8]
+    js_ver = hashlib.md5(appjs.encode("utf-8")).hexdigest()[:8]
+    page = page.replace('href="styles.css"', f'href="styles.css?v={css_ver}"')
+    page = page.replace('src="app.js"', f'src="app.js?v={js_ver}"')
 
     os.makedirs(SITE, exist_ok=True)
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
